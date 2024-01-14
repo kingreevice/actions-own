@@ -27,3 +27,13 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           date
+  build_on_windows:
+   runs_on: windows-latest
+    steps:
+    
+      - name: run multi-line script
+      run:|
+        echo "hellow github-actions "
+        Get-Date
+ 
+  
