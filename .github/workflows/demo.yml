@@ -22,15 +22,21 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
+      
       #下面的竖线表示要运行多行的命令
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
           date  
+          
   build_on_windows:
+  
     runs_on: windows-latest
+    
     steps:
+    
       - name: run multi-line script  
+      
         run: |  
           echo  "hellow github-actions "	
           Get-Date
