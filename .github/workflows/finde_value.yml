@@ -14,4 +14,4 @@ jobs:
         run: echo "The branch name is: $github.ref"
 
       - name: Get the input variable
-        run: echo "The input variable is: ${{ inputs.my-input }}"
+        run: echo "The input variable is: ${{ inputs.NUM }}"
