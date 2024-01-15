@@ -11,4 +11,4 @@ jobs:
 
     steps:
       - name: Get the variable
-        run: echo "The variable is: ${{ github.NAME }}"
+        run: echo "The variable is:${{ secrets.NAME }"
