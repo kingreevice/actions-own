@@ -1,6 +1,6 @@
 import time,sys
-username = sys.argv[1] # 变量测试
-#password = sys.argv[2] # 登录密码
+username = sys.argv[1] 
+#password = sys.argv[2]
 def main():
     localtime = time.asctime( time.localtime(time.time()) )
     print("Hello, GitHub Actions!")
