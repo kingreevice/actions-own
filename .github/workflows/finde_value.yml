@@ -44,4 +44,5 @@ jobs:
            #chmod -R 777 /usr/bin/chromedriver
           python ./hhhh.py  ${{secrets.NUM }} ${{secrets.VALUE}}
         env:
+          #获取secrets的变量以便hhh.py调用
           APP_ID: ${{ secrets.NUM }}
