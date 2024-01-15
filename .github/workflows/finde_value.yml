@@ -39,7 +39,9 @@ jobs:
         uses: nanasess/setup-chromedriver@v2
         
       - name: 'Working'
-        run:
+        run: 
            #sudo cp -p ./chromedriver /usr/bin/
            #chmod -R 777 /usr/bin/chromedriver
           python ./demo.py  ${{secrets.NUM }} ${{secrets.VALUE}}
+        env:
+           APP_ID: ${{ secrets.NUM }}
