@@ -9,6 +9,7 @@ def main():
     # Get the username and password from command line arguments
     username = sys.argv[1]
     password = sys.argv[2]
+    #获取finde_value.yml提取的变量
     appID = os.environ.get("APP_ID")
     print(f'appid:{appID}')
 
