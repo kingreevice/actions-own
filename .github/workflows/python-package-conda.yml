@@ -5,7 +5,7 @@ on:
     branches:
       - main  # 可以根据你的默认分支修改
   schedule:
-    - cron: '0 5 15 * *'  # 每天的13:00 UTC时间
+    - cron: '0 12 * * *'  # 每天的换成北京时间加8小时
 
 jobs:
   run_program:
