@@ -23,4 +23,4 @@ jobs:
         pip install -r requirements.txt  # 如果有依赖，可以修改成你的依赖文件
 
     - name: Run Python Program
-      run: python demo.py ${{ secrets.name }}  ${{ secrets.value }}}  # 获取变量
+      run: python demo.py ${{ secrets.NAME }}  ${{ secrets.VALUE}}}  # 获取变量-变量名大写
