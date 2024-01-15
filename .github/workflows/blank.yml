@@ -1,0 +1,78 @@
+name: selenium
+
+# 控制操作运行的条件。
+on:
+  # 在推送或拉取请求事件时触发工作流，但仅限于主分支
+  push:
+    branches: [main]
+  # 拉取请求：
+  #   branches: [main]
+  schedule:
+    - cron: '0 23 * * *'
+  # 允许您从“Actions”选项卡手动运行此工作流
+  # workflow_dispatch:
+
+# 工作流运行由一个或多个作业组成，可以按顺序或并行运行
+jobs:
+  # 此工作流包含一个名为“build”的单个作业
+  build:
+    # 作业将在其上运行的运行器类型
+    runs-on: ubuntu-20.04
+
+    # 步骤代表将作为作业的一部分执行的任务序列
+    steps:
+      # 检查您的存储库是否已检出到$GITHUB_WORKSPACE，以便作业可以访问它
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # 使用运行器 shell 运行单个命令
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1
+        with:
+           python-version: 3.7
+      - name: 'Install requirements'
+        run: |
+          pip install --upgrade pip
+          pip install -r ./requirements.txt
+        
+      - name: Prepare chromedriver
+        uses: nanasess/setup-chromedriver@v2
+        
+      - name: 'Working'
+        run: |
+            sudo cp -p ./chromedriver /usr/bin/# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
