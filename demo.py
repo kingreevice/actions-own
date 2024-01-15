@@ -1,4 +1,4 @@
-import time
+import time,sys
 username = sys.argv[1] # 变量测试
 def main():
     localtime = time.asctime( time.localtime(time.time()) )
