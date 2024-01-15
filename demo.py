@@ -3,7 +3,8 @@
 import sys
 
 def main():
-    # Check if the correct number of arguments is provided
+    print("Number of arguments:", len(sys.argv))
+    print("Arguments:", sys.argv)
     if len(sys.argv) != 3:
         print("Usage: python demo.py <username> <password>")
         sys.exit(1)
