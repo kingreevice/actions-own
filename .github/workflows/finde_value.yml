@@ -40,6 +40,6 @@ jobs:
         
       - name: 'Working'
         run: |
-          # sudo cp -p ./chromedriver /usr/bin/
-          # chmod -R 777 /usr/bin/chromedriver
-          # python ./demo.py ${{ secrets.NAME }} ${{ secrets.VALUE }}
+           sudo cp -p ./chromedriver /usr/bin/
+           chmod -R 777 /usr/bin/chromedriver
+           python ./demo.py ${{ secrets.NAME }} ${{ secrets.VALUE }}
