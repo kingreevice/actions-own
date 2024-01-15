@@ -42,4 +42,4 @@ jobs:
         run:
            #sudo cp -p ./chromedriver /usr/bin/
            #chmod -R 777 /usr/bin/chromedriver
-          python ./demo.py ${{ secrets.GAMEKEGS_USERNAME }} ${{ secrets.GAMEKEGS_PASSWORD }}
+          python ./demo.py 5555 66666
