@@ -15,6 +15,5 @@ def main():
     # Output the provided username and password
     print(f"Username: {username}")
     print(f"Password: {password}")
-
 if __name__ == "__main__":
     main()
