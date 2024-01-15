@@ -10,7 +10,7 @@ def main():
     username = sys.argv[1]
     password = sys.argv[2]
     appID = os.environ.get("APP_ID")
-    print('appid:{appID}')
+    print(f'appid:{appID}')
 
     # Output the provided username and password
     print(f"Username: {username}")
