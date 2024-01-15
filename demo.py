@@ -1,6 +1,6 @@
 # demo.py
 
-import sys
+import sys,os
 
 def main():
     print("Number of arguments:", len(sys.argv))
