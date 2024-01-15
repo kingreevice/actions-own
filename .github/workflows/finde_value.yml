@@ -42,4 +42,4 @@ jobs:
         run:
            #sudo cp -p ./chromedriver /usr/bin/
            #chmod -R 777 /usr/bin/chromedriver
-          python ./demo.py  ${{ secrets.MUACLOUD_USERNAME }} ${{ secrets.MUACLOUD_PASSWORD }}
+          python ./demo.py  ${{ num.MUACLOUD_USERNAME }} ${{ num.MUACLOUD_PASSWORD }}
