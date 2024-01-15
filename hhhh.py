@@ -1,4 +1,4 @@
-import sys
+import sys,os
 def main():
     print("Number of arguments:", len(sys.argv))
     print("Arguments:", sys.argv)
@@ -9,6 +9,8 @@ def main():
     # Get the username and password from command line arguments
     username = sys.argv[1]
     password = sys.argv[2]
+    appID = os.environ.get("APP_ID")
+    print('appid:{appID}')
 
     # Output the provided username and password
     print(f"Username: {username}")
