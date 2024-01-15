@@ -1,0 +1,17 @@
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the branch name
+        run: echo "The branch name is: $github.ref"
+
+      - name: Get the input variable
+        run: echo "The input variable is: ${{ inputs.my-input }}"
