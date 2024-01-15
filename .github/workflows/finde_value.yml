@@ -45,4 +45,4 @@ jobs:
           python ./demo.py  ${{secrets.NUM }} ${{secrets.VALUE}}
         env:
            #配合demo.py里的appID = os.environ.get("APP_ID')获取变量数据
-           APP_ID: ${{ secrets.NUM }}
+           #APP_ID: ${{ secrets.NUM }}
