@@ -12,6 +12,7 @@ def main():
     # Get the username and password from command line arguments
     username = sys.argv[1]
     password = sys.argv[2]
+    print(f'ID:{os.environ.get('NAME')}')
 
     # Output the provided username and password
     print(f"Username: {username}")
