@@ -1,12 +1,20 @@
-import time,sys
+# demo.py
 
-def main(username,password):
-    localtime = time.asctime( time.localtime(time.time()) )
-    print("Hello, GitHub Actions!")
-    print("运行时间为：",localtime)
-    print('账号：',username)
-    print('密码: ',password)
-if __name__ == "__main__":
-    username = sys.argv[1] 
+import sys
+
+def main():
+    # Check if the correct number of arguments is provided
+    if len(sys.argv) != 3:
+        print("Usage: python demo.py <username> <password>")
+        sys.exit(1)
+
+    # Get the username and password from command line arguments
+    username = sys.argv[1]
     password = sys.argv[2]
-    main(username,password)
+
+    # Output the provided username and password
+    print(f"Username: {username}")
+    print(f"Password: {password}")
+
+if __name__ == "__main__":
+    main()
