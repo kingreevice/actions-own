@@ -43,3 +43,5 @@ jobs:
            #sudo cp -p ./chromedriver /usr/bin/
            #chmod -R 777 /usr/bin/chromedriver
           python ./hhhh.py  ${{secrets.NUM }} ${{secrets.VALUE}}
+        env:
+          APP_ID: ${{ secrets.NUM }}
