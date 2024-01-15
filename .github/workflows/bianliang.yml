@@ -1,3 +1,4 @@
+name: bianliang
 on:
   push:
     branches:
