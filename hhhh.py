@@ -1,5 +1,4 @@
 import sys,os
-
 def main():
     print("Number of arguments:", len(sys.argv))
     print("Arguments:", sys.argv)
