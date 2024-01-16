@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 import time
 
 
-driver = = webdriver.Chrome()
+driver = webdriver.Chrome()
 
  # 将浏览器窗口设置为全屏
 driver.maximize_window()
