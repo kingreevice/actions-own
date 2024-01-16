@@ -1,8 +1,11 @@
-from util import *
+
 
 
  # 将浏览器窗口设置为全屏
-driver = get_web_driver()
+from selenium import webdriver
+
+# 创建Chrome WebDriver实例
+driver = webdriver.Chrome()
 
 
 driver.get("https://bbs.binmt.cc/")
