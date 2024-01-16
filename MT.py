@@ -4,15 +4,8 @@ from selenium.webdriver.common.by import By
 import time
 
 
-#chromedriver.exe 要与chrome 版本号从左到右尽量对应
-chrome_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chromedriver.exe'
- 
-options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
- 
-service = Service(executable_path=chrome_path)
+driver = get_web_driver()
 
-driver = webdriver.Chrome(service=service, options=options)
 
  # 将浏览器窗口设置为全屏
 driver.maximize_window()
