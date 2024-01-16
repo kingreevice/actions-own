@@ -1,13 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-import time
-
+from util import *
 
 driver = webdriver.Chrome()
 
  # 将浏览器窗口设置为全屏
-driver.maximize_window()
+driver = get_web_driver()
+
 
 driver.get("https://bbs.binmt.cc/")
 
