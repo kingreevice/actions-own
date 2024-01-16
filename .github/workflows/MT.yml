@@ -39,5 +39,6 @@ jobs:
         uses: nanasess/setup-chromedriver@v2
         
       - name: 'Working'
-        run:
+        run: |
           echo "hello"
+          python ./MT.py
