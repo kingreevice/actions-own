@@ -9,7 +9,7 @@ chrome_options.add_argument("--disable-gpu")
 driver = webdriver.Chrome(options=chrome_options)
 
 
-driver.get("https://bbs.binmt.cc/")
+driver.get("https://www.google.com/")
 
 print("程序运行成功")
 # 获取网页标题
