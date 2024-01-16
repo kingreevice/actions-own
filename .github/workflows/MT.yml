@@ -39,7 +39,7 @@ jobs:
         uses: nanasess/setup-chromedriver@v2
         
       - name: 'Working'
-        run: 
-           #sudo cp -p ./chromedriver /usr/bin/
-           #chmod -R 777 /usr/bin/chromedriver
+        run: |
+          sudo cp -p ./chromedriver /usr/bin/
+          chmod -R 777 /usr/bin/chromedriver
           python ./MT.py  
