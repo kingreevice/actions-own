@@ -1,6 +1,5 @@
 from util import *
 
-driver = webdriver.Chrome()
 
  # 将浏览器窗口设置为全屏
 driver = get_web_driver()
