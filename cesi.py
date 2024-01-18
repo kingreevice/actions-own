@@ -11,4 +11,8 @@ print(res)
 
 
 driver = get_web_driver()
-driver.get("https://www.91tvg.com")
+driver.get("https://fofa.info/")
+# 获取网页标题
+page_title = driver.title
+
+print("Page Title:", page_title)
