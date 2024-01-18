@@ -31,23 +31,23 @@ def is_visible(driver, locator, timeout=10):
     except TimeoutException:
         return False
 
-# def Ocr_Captcha(driver, locator, img_path): # 验证码识别
-#     propertery = driver.find_element_by_xpath(locator)
-#     driver.save_screenshot(img_path)
-#     img = Image.open(img_path)
-#     location = propertery.location
-#     size = propertery.size
-#     left = location['x']
-#     top = location['y']
-#     right = left + size['width']
-#     bottom = top + size['height']
-#     image = img.crop((left, top, right, bottom))  # 左、上、右、下
-#     image.save(img_path)
-#     ocr = ddddocr.DdddOcr()
-#     with open(img_path, 'rb') as f:
-#         img_bytes = f.read()
-#     res = ocr.classification(img_bytes)
-#     return res
+def Ocr_Captcha(driver, locator, img_path): # 验证码识别
+    propertery = driver.find_element_by_xpath(locator)
+    driver.save_screenshot(img_path)
+    img = Image.open(img_path)
+    location = propertery.location
+    size = propertery.size
+    left = location['x']
+    top = location['y']
+    right = left + size['width']
+    bottom = top + size['height']
+    image = img.crop((left, top, right, bottom))  # 左、上、右、下
+    image.save(img_path)
+    ocr = ddddocr.DdddOcr()
+    with open(img_path, 'rb') as f:
+        img_bytes = f.read()
+        res = ocr.classification(img_bytes)
+        return res
 
 class Track(object):
     # 处理前图片
