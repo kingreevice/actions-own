@@ -16,3 +16,10 @@ driver.get("https://fofa.info/")
 page_title = driver.title
 
 print("Page Title:", page_title)
+
+valid = Ocr_Captcha(driver, '//*[@id="captcha_image"]', img_path) # 验证码识别
+print(valid)
+time.sleep(5)
+
+# 关闭浏览器
+driver.quit()
