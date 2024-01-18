@@ -1,5 +1,6 @@
 import ddddocr
 from util import *
+img_path = os.getcwd() + "/1.png"
 
 ocr = ddddocr.DdddOcr()
 
