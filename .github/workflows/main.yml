@@ -40,5 +40,7 @@ jobs:
         
       - name: 'Working'
         run: |
+          sudo cp -p ./chromedriver /usr/bin/
+          chmod -R 777 /usr/bin/chromedriver
           ls
           cesi.py
