@@ -18,8 +18,7 @@ page_title = driver.title
 
 print("Page Title:", page_title)
 
-valid = Ocr_Captcha(driver, '//*[@style="height:32px"]', img_path) # 验证码识别
-print(valid)
+driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("cooc.png")
 time.sleep(5)
 
 # 关闭浏览器
