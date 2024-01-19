@@ -18,7 +18,8 @@ page_title = driver.title
 
 print("Page Title:", page_title)
 
-driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("cooc.png")
+#driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("cooc.png")
+driver.find_element(By.XPATH,'//*[@id="captcha_image"]').screenshot("ggg.png")
 time.sleep(5)
 
 # 关闭浏览器
