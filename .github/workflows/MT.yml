@@ -33,7 +33,7 @@ jobs:
       - name: 'Install requirements'
         run: |
           pip install --upgrade pip
-          pip install -r ./requirements.txt
+          pip install -r ./request.txt
         
       - name: Prepare chromedriver
         uses: nanasess/setup-chromedriver@v2
