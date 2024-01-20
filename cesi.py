@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from PIL import Image
 import ddddocr
 import os
 
@@ -27,7 +28,8 @@ try:
     )
 
     # 截取验证码图片
-    captcha_image.screenshot("abj.png")
+   
+    screenshot = captcha_image.screenshot_as_png
     # 使用Pillow保存图片
     with open("./abj.png", 'wb') as f:
         f.write(screenshot)
@@ -35,11 +37,6 @@ try:
 finally:
     # 关闭WebDriver
     driver.quit()
-
-
-
-
-img_path = os.getcwd() + "/ggg.png"
 
 ocr = ddddocr.DdddOcr()
 
