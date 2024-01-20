@@ -1,36 +1,40 @@
 # from PIL import Image
 import ddddocr
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.common.keys import Keys
 
-
-#chromedriver.exe 要与chrome 版本号从左到右尽量对应
-#chromedriver.exe 要与chrom浏览器放一起
-chrome_path = "/usr/bin/chromedriver"
- 
+# 设置Chrome WebDriver为无头模式
 options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
- 
-service = Service(executable_path=chrome_path)
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
 
-driver = webdriver.Chrome(service=service, options=options)
+# 初始化WebDriver
+driver = webdriver.Chrome(options=options)
 
- # 将浏览器窗口设置为全屏
-driver.maximize_window()
+try:
+    # 打开Google首页
+    driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")
 
-driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")
+    # 找到搜索框元素并输入关键词
+    search_box = driver.find_element("name", "q")
+    search_box.send_keys("GitHub Actions with Selenium")
+    search_box.send_keys(Keys.RETURN)
 
-print("程序运行成功")
-# 获取网页标题
-page_title = driver.title
+    # 等待一些时间以确保页面加载完全
+    driver.implicitly_wait(5)
 
-print("Page Title:", page_title)
+    # 打印当前页面标题
+    print("Page title: {}".format(driver.title))
+
+finally:
+    # 关闭WebDriver
+    driver.quit()
 
 
 
-img_path = os.getcwd() + "/1.png"
+
+img_path = os.getcwd() + "/ggg.png"
 
 ocr = ddddocr.DdddOcr()
 
