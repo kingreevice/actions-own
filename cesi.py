@@ -1,5 +1,5 @@
 # from PIL import Image
-import ddddocr
+import ddddocr,os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
