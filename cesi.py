@@ -6,6 +6,11 @@ from selenium.webdriver.support import expected_conditions as EC
 import ddddocr
 import os
 
+# 设置Chrome WebDriver为无头模式
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
 # 初始化WebDriver
 driver = webdriver.Chrome(options=options)
 
