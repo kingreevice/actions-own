@@ -1,25 +1,32 @@
 # from PIL import Image
 import ddddocr
-import numpy as np
-from retrying import retry
 from selenium import webdriver
-import os, sys, time, requests
-from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import time
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox') # 解决DevToolsActivePort文件不存在的报错
-chrome_options.add_argument('window-size=1920x1080') # 指定浏览器分辨率
-chrome_options.add_argument('--disable-gpu') # 谷歌文档提到需要加上这个属性来规避bug
-chrome_options.add_argument('--headless') # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
 
-chromedriver = "/usr/bin/chromedriver"
-os.environ["webdriver.chrome.driver"] = chromedriver
-driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_options)
-driver.implicitly_wait(10) # 所有的操作都可以最长等待10s
+#chromedriver.exe 要与chrome 版本号从左到右尽量对应
+#chromedriver.exe 要与chrom浏览器放一起
+chrome_path = "/usr/bin/chromedriver"
+ 
+options = webdriver.ChromeOptions()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+ 
+service = Service(executable_path=chrome_path)
+
+driver = webdriver.Chrome(service=service, options=options)
+
+ # 将浏览器窗口设置为全屏
+driver.maximize_window()
+
+driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")
+
+print("程序运行成功")
+# 获取网页标题
+page_title = driver.title
+
+print("Page Title:", page_title)
 
 
 
