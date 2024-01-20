@@ -1,13 +1,10 @@
-# from PIL import Image
-import ddddocr,os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
-# 设置Chrome WebDriver为无头模式
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import ddddocr
+import os
 
 # 初始化WebDriver
 driver = webdriver.Chrome(options=options)
