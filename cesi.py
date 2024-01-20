@@ -19,7 +19,13 @@ try:
     # 打印当前页面标题
     print("Page title: {}".format(driver.title))
 
-    driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("/cooc.png")
+     # 等待验证码图片元素出现
+    captcha_image = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.XPATH, '//*[@id="captcha_image"]'))
+    )
+
+    # 截取验证码图片
+    captcha_image.screenshot("/ggg.png")
 
 finally:
     # 关闭WebDriver
