@@ -19,6 +19,8 @@ try:
     # 打印当前页面标题
     print("Page title: {}".format(driver.title))
 
+    driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("/cooc.png")
+
 finally:
     # 关闭WebDriver
     driver.quit()
@@ -37,14 +39,3 @@ res = ocr.classification(image)
 print(res)
 
 
-# 获取网页标题
-page_title = driver.title
-
-print("Page Title:", page_title)
-
-driver.find_element_by_xpath('//*[@id="captcha_image"]').screenshot("/cooc.png")
-
-time.sleep(5)
-
-# 关闭浏览器
-driver.quit()
