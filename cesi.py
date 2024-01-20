@@ -27,7 +27,10 @@ try:
     )
 
     # 截取验证码图片
-    captcha_image.screenshot("/abj.png")
+    captcha_image.screenshot("abj.png")
+    # 使用Pillow保存图片
+    with open("./abj.png", 'wb') as f:
+        f.write(screenshot)
 
 finally:
     # 关闭WebDriver
@@ -40,7 +43,7 @@ img_path = os.getcwd() + "/ggg.png"
 
 ocr = ddddocr.DdddOcr()
 
-with open("./ggg.png", 'rb') as f:
+with open("./abj.png", 'rb') as f:
     image = f.read()
 
 res = ocr.classification(image)
