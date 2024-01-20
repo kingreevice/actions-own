@@ -27,7 +27,7 @@ img_path = os.getcwd() + "/1.png"
 
 ocr = ddddocr.DdddOcr()
 
-with open("./a.jpg", 'rb') as f:
+with open("./ggg.png", 'rb') as f:
     image = f.read()
 
 res = ocr.classification(image)
