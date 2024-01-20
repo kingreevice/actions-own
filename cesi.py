@@ -16,14 +16,6 @@ try:
     # 打开Google首页
     driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")
 
-    # 找到搜索框元素并输入关键词
-    search_box = driver.find_element("name", "q")
-    search_box.send_keys("GitHub Actions with Selenium")
-    search_box.send_keys(Keys.RETURN)
-
-    # 等待一些时间以确保页面加载完全
-    driver.implicitly_wait(5)
-
     # 打印当前页面标题
     print("Page title: {}".format(driver.title))
 
