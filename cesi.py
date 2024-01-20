@@ -27,7 +27,7 @@ try:
     )
 
     # 截取验证码图片
-    captcha_image.screenshot("/ggg.png")
+    captcha_image.screenshot("/abj.png")
 
 finally:
     # 关闭WebDriver
