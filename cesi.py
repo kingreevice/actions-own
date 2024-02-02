@@ -31,7 +31,7 @@ try:
    
     screenshot = captcha_image.screenshot_as_png
     # 使用Pillow保存图片
-    with open("./abj.png", 'wb') as f:
+    with open("abj.png", 'wb') as f:
         f.write(screenshot)
 
 finally:
@@ -40,7 +40,7 @@ finally:
 
 ocr = ddddocr.DdddOcr()
 
-with open("./abj.png", 'rb') as f:
+with open("abj.png", 'rb') as f:
     image = f.read()
 
 res = ocr.classification(image)
