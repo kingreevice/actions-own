@@ -31,7 +31,7 @@ try:
         os.makedirs(save_dir)
 
     # 保存图片
-    image_path = os.path.join(save_dir, "/captcha.png")
+    image_path = os.path.join(save_dir, "captcha.png")
     with open(image_path, 'wb') as f:
         f.write(screenshot)
 
