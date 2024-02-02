@@ -26,16 +26,11 @@ try:
     screenshot = captcha_image.screenshot_as_png
 
     # 确保目录存在
-    save_dir = os.getcwd()  # 替换成你希望保存图片的目录
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
+   image_path = os.path.join(os.path.dirname(__file__), "captcha.png")
+   with open(image_path, 'wb') as f:
+       f.write(screenshot)
 
-    # 保存图片
-    image_path = os.path.join(save_dir, "captcha.png")
-    with open(image_path, 'wb') as f:
-        f.write(screenshot)
-
-    print("验证码图片已保存到:", image_path)
+print("验证码图片已保存到:", image_path)
 
 finally:
     # 关闭WebDriver
