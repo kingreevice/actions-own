@@ -26,12 +26,12 @@ try:
     screenshot = captcha_image.screenshot_as_png
 
     # 确保目录存在
-    save_dir = os.getcwd() + "/captcha.png"  # 替换成你希望保存图片的目录
+    save_dir = os.getcwd()  # 替换成你希望保存图片的目录
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
     # 保存图片
-    image_path = os.path.join(save_dir, "captcha.png")
+    image_path = os.path.join(save_dir, "/captcha.png")
     with open(image_path, 'wb') as f:
         f.write(screenshot)
 
