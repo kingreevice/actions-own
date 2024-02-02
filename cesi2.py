@@ -26,7 +26,7 @@ try:
     screenshot = captcha_image.screenshot_as_png
 
     # 确保目录存在
-    save_dir = "./"  # 替换成你希望保存图片的目录
+    save_dir = os.getcwd() + "/captcha.png"  # 替换成你希望保存图片的目录
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
