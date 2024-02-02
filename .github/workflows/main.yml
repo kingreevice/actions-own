@@ -40,5 +40,5 @@ jobs:
         
       - name: 'Working'
         run: |
-          ls
           python cesi2.py
+          ls
