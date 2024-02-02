@@ -1,10 +1,7 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from PIL import Image
-import ddddocr
 import os
 
 # 设置Chrome WebDriver为无头模式
@@ -17,31 +14,32 @@ options.add_argument('--no-sandbox')
 driver = webdriver.Chrome(options=options)
 
 try:
-    # 打开Google首页
-    driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")
-
-    # 打印当前页面标题
-    print("Page title: {}".format(driver.title))
+    # 打开网页
+    driver.get("https://i.nosec.org/login?locale=zh-CN&service=https://fofa.info/f_login")  # 替换成你的网页地址
 
     # 等待验证码图片元素出现
     captcha_image = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.XPATH, '//*[@id="captcha_image"]'))
+        EC.presence_of_element_located((By.XPATH, '//*[@id="captcha_image"]'))
     )
 
     # 截取验证码图片
     screenshot = captcha_image.screenshot_as_png
 
-    # 使用Pillow保存图片
-    with open("abj.png", 'wb') as f:
+    # 确保目录存在
+    save_dir = "./"  # 替换成你希望保存图片的目录
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    # 保存图片
+    image_path = os.path.join(save_dir, "captcha.png")
+    with open(image_path, 'wb') as f:
         f.write(screenshot)
 
-    # OCR识别
-    ocr = ddddocr.DdddOcr()
-    with open("abj.png", 'rb') as f:
-        image = f.read()
-    res = ocr.classification(image)
-    print(res)
+    print("验证码图片已保存到:", image_path)
 
 finally:
     # 关闭WebDriver
     driver.quit()
+
+
+
