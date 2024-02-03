@@ -14,7 +14,7 @@ jobs:
 
     - name: Run Python script
       run: |
-        python3 generate_text.py > output.txt
+        python3 cesi2.py > output.txt
       working-directory: ${{ github.workspace }}
 
     - name: Display directory contents
