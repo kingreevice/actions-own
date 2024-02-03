@@ -12,11 +12,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      working-directory: ${{ github.workspace }}
+
     - name: Run Python script
-      run: |
-        python3 cesi2.py > output.txt
+      run: python3 cesi2.py
       working-directory: ${{ github.workspace }}
 
     - name: Display directory contents
-      run: |
-        ls -l
+      run: ls -l
+      working-directory: ${{ github.workspace }}
