@@ -1,0 +1,22 @@
+name: Generate Text File
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate_file:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run Python script
+      run: |
+        python3 generate_text.py > output.txt
+      working-directory: ${{ github.workspace }}
+
+    - name: Display directory contents
+      run: |
+        ls -l
