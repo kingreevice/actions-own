@@ -38,3 +38,4 @@ jobs:
           git add output.json
           git commit -m "Add generated JSON file"
           git push origin main
+          
