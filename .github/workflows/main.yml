@@ -26,6 +26,10 @@ jobs:
       - name: Generate JSON file
         run: |
           python -c '
+      - name: 'Install requirements'
+        run: |
+          pip install --upgrade pip
+          pip install -r ./request.txt
 import json
 
 data = {
