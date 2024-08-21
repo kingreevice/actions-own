@@ -2,7 +2,7 @@ import json,time
 from datetime import datetime
 
 # 获取当前时间
-now = datetime.now()
+now = str(datetime.now())
 
 
 
