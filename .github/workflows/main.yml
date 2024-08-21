@@ -39,7 +39,7 @@ with open("output.json", "w") as f:
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ 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 }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
