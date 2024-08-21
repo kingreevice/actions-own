@@ -1,42 +1,30 @@
 name: MT
 
-# Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-  # Schedule to run the workflow daily at 23:00 UTC
   schedule:
     - cron: '0 23 * * *'
-  # Allows you to run this workflow manually from the Actions tab
-  # workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-20.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Sets up Python 3.7 on the runner
       - name: 'Set up Python'
-        uses: actions/setup-python@v4  # 使用v4以获得更好的兼容性和支持
+        uses: actions/setup-python@v4
         with:
            python-version: '3.7'
 
-      # Installs the required Python packages
-      - name: 'Install requirements'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ./request.txt
-        
-      # Generates a JSON file using Python
+      - name: 'Check Python version'
+        run: python --version
+
+      - name: 'Check Python path'
+        run: which python
+
       - name: 'Generate JSON file'
         run: |
           python -c '
@@ -51,7 +39,6 @@ with open("output.json", "w") as f:
     json.dump(data, f, indent=4)
           '
 
-      # Optionally, you can commit and push the generated JSON file back to the repository
       - name: Commit and push JSON file
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
