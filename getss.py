@@ -52,6 +52,7 @@ def f(g, d, e):
 j = requests.post(a, headers=b, data=c)
 
 if j.status_code == 200:
+    f = open('ss.txt','w')
     k = j.text.strip()
     l = binascii.unhexlify(k)
     m = f(l, d, e)
@@ -62,3 +63,6 @@ if j.status_code == 200:
         r = f"ss://{q}#{o['title']}"
         
         print(r)
+        f.write(r)
+        f.write('\n')
+    f.close()
