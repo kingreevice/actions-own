@@ -27,7 +27,7 @@ jobs:
       # 运行外部的 Python 脚本生成 JSON 文件
       - name: 'Run ss.py to generate JSON'
         run: python ./ss.py
-      - name: 'Run getss.py  to generate JSON and save output to txt file'
+      - name: 'Run getss.py to generate txt '
         run: python ./getss.py
 
       # 如果需要，将生成的 JSON 文件提交并推送到仓库
@@ -38,6 +38,17 @@ jobs:
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add output.json
+          git commit -m "Add generated JSON file"
+          git push origin main
+          
+       # 如果需要，将生成的 txt 文件提交并推送到仓库 
+      - name: Commit and push txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add ss.txt
           git commit -m "Add generated JSON file"
           git push origin main
           
