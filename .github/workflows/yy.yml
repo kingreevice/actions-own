@@ -27,7 +27,7 @@ jobs:
       # 运行外部的 Python 脚本生成 JSON 文件
       - name: 'Run ss.py to generate JSON'
         run: python ./ss.py
-      - name: 'Run getss.py to generate JSON'
+      - name: 'Run getss.py to generate text'
         run: python ./getss.py
 
       # 如果需要，将生成的 JSON 文件提交并推送到仓库
