@@ -1,4 +1,4 @@
-name: Build and Save Cheerio for JSBox
+name: Build Cheerio for JSBox
 
 on:
   schedule:
@@ -14,64 +14,63 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v3
 
-    # 2. 下载 Cheerio 最新源码
-    - name: Download Cheerio source
-      run: |
-        git clone --depth=1 https://github.com/cheeriojs/cheerio.git cheerio-latest
-
-    # 3. 设置 Node.js 环境
+    # 2. 安装 Node.js 环境
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18
 
-    # 4. 安装依赖并构建
-    - name: Install and Build Cheerio
-      working-directory: cheerio-latest
+    # 3. 安装依赖
+    - name: Install dependencies
       run: |
         npm install
-        npm run build  # 生成 dist 文件
-        ls -alh dist/  # 查看 dist 文件夹的内容
 
-    # 5. 获取最新的标签并生成新的标签
-    - name: Get latest tag
+    # 4. 安装 Webpack 和其它构建工具
+    - name: Install Webpack and build tools
       run: |
-        latest_tag=$(git tag --sort=-v:refname | head -n 1)
-        echo "Latest tag is: $latest_tag"
-        
-        # 获取版本号并递增
-        if [[ $latest_tag =~ v([0-9]+) ]]; then
-          version_number=${BASH_REMATCH[1]}
-          new_version_number=$((version_number + 1))
-          new_tag="v$new_version_number"
-        else
-          new_tag="v1"  # 如果没有找到标签，则从 v1 开始
-        fi
+        npm install webpack webpack-cli --save-dev
+        npm install cheerio --save
 
-        echo "New tag will be: $new_tag"
-        echo "new_tag=$new_tag" >> $GITHUB_ENV  # 将新标签保存到环境变量
+    # 5. 创建 Webpack 配置文件
+    - name: Create Webpack config file
+      run: |
+        echo "
+        const path = require('path');
 
-    # 6. 创建 GitHub Release
+        module.exports = {
+          entry: './node_modules/cheerio/lib/cheerio.js', // Cheerio 的入口文件
+          output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'cheerio-jsbox.js', // 输出文件名
+            library: 'cheerio', // 让 Cheerio 作为全局库
+            libraryTarget: 'umd', // 使其兼容多种环境
+          },
+          target: 'web', // 目标平台设置为 web
+        };
+        " > webpack.config.js
+
+    # 6. 使用 Webpack 打包 Cheerio
+    - name: Build Cheerio using Webpack
+      run: |
+        npx webpack --config webpack.config.js
+
+    # 7. 上传打包好的文件到 GitHub Release
     - name: Create Release
       id: release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ env.new_tag }}  # 使用新生成的标签
-        release_name: "Cheerio Build ${{ env.new_tag }}"
+        tag_name: 'v1.0.0'
+        release_name: 'Cheerio Build for JSBox'
         draft: false
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # 7. 将构建文件打包成 zip 并上传
-    - name: Package and Upload Release Asset
-      run: |
-        # 将 dist 目录打包为 zip 文件
-        zip -r cheerio-jsbox.zip cheerio-latest/dist/
-
-        # 上传该 zip 文件到 GitHub Release
-        curl -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          --data-binary @cheerio-jsbox.zip \
-          ${{ steps.release.outputs.upload_url }}?name=cheerio-jsbox.zip\&label=CheerioBuild
+    # 8. 上传打包后的文件
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: dist/cheerio-jsbox.js
+        asset_name: cheerio-jsbox.js
+        asset_content_type: application/javascript
