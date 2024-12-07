@@ -1,59 +1,74 @@
-name: Build Cheerio for JSBox
+name: Build and Package Cheerio for JSBox
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 每天运行一次（可以根据需要调整）
-  workflow_dispatch:  # 手动触发
+    - cron: "0 0 * * *"  # 每天运行一次
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   build-cheerio:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. 检出代码仓库
-    - name: Checkout the repository
+    # 1. 检出代码
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 2. 安装 Node.js 环境
-    - name: Setup Node.js
+    # 2. 解压 cheerio-main.zip
+    - name: Unzip cheerio-main.zip
+      run: |
+        unzip cheerio-main.zip -d cheerio-main
+
+    # 3. 安装 Node.js 环境
+    - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: '18'
 
-    # 3. 安装最新版本的 Cheerio 和依赖
-    - name: Install Cheerio and dependencies
+    # 4. 安装依赖
+    - name: Install dependencies
       run: |
-        npm install cheerio@latest --save  # 自动安装最新的 Cheerio
-        npm install webpack webpack-cli --save-dev  # 安装 Webpack
+        cd cheerio-main
+        npm install -g typescript  # 安装 TypeScript
+        npm install  # 安装项目依赖
 
-    # 4. 创建 Webpack 配置文件
-    - name: Create Webpack config file
+    # 5. 编译 TypeScript 文件
+    - name: Compile TypeScript to JavaScript
+      run: |
+        cd cheerio-main
+        npx tsc  # 使用 tsc 编译 TypeScript 文件
+
+    # 6. 创建 Webpack 配置文件
+    - name: Create Webpack config
       run: |
         echo "
         const path = require('path');
-
         module.exports = {
-          mode: 'production',  // 设置为 production 或 development
-          entry: './node_modules/cheerio/lib/cheerio.js',  // Cheerio 的入口文件
+          mode: 'production',
+          entry: './dist/cheerio.js',  # 指向编译后的 JS 文件
           output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: 'cheerio-jsbox.js', // 输出文件名
-            library: 'cheerio', // 让 Cheerio 作为全局库
-            libraryTarget: 'umd', // 使其兼容多种环境
+            filename: 'cheerio-jsbox.js',
+            library: 'cheerio',
+            libraryTarget: 'umd',
           },
-          target: 'web', // 目标平台设置为 web
-          resolve: {
-            extensions: ['.js', '.json'], // 自动解析的文件扩展名
-          },
+          target: 'web',
         };
-        " > webpack.config.js
+        " > cheerio-main/webpack.config.js
 
-    # 5. 使用 Webpack 打包 Cheerio
-    - name: Build Cheerio using Webpack
+    # 7. 安装 Webpack
+    - name: Install Webpack
       run: |
-        npx webpack --config webpack.config.js
+        cd cheerio-main
+        npm install webpack webpack-cli --save-dev  # 安装 Webpack
 
-    # 6. 创建 GitHub Release 并上传文件
+    # 8. 使用 Webpack 打包
+    - name: Build Cheerio with Webpack
+      run: |
+        cd cheerio-main
+        npx webpack --config webpack.config.js  # 使用 Webpack 打包
+
+    # 9. 创建 GitHub Release
     - name: Create Release
       id: release
       uses: actions/create-release@v1
@@ -65,10 +80,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    # 10. 上传文件到 Release
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: dist/cheerio-jsbox.js
+        asset_path: cheerio-main/dist/cheerio-jsbox.js
         asset_name: cheerio-jsbox.js
         asset_content_type: application/javascript
