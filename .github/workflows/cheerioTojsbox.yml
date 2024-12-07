@@ -63,11 +63,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # 7. 上传构建结果到 GitHub Release
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}  # 从创建 Release 步骤中获取 upload_url
-        asset_path: cheerio-latest/dist/  # 构建后的文件路径
-        asset_name: cheerio-jsbox.zip  # 上传的文件名称
-        asset_content_type: application/zip  # 文件类型，适用于 zip 文件
+    # 7. 将构建文件打包成 zip 并上传
+    - name: Package and Upload Release Asset
+      run: |
+        # 将 dist 目录打包为 zip 文件
+        zip -r cheerio-jsbox.zip cheerio-latest/dist/
+
+        # 上传该 zip 文件到 GitHub Release
+        curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          --data-binary @cheerio-jsbox.zip \
+          ${{ steps.release.outputs.upload_url }}?name=cheerio-jsbox.zip\&label=CheerioBuild
