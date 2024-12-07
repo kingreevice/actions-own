@@ -33,7 +33,8 @@ jobs:
         const path = require('path');
 
         module.exports = {
-          entry: './node_modules/cheerio/lib/cheerio.js', // Cheerio 的入口文件
+          mode: 'production',  // 设置为 production 或 development
+          entry: './node_modules/cheerio/lib/cheerio.js',  // Cheerio 的入口文件
           output: {
             path: path.resolve(__dirname, 'dist'),
             filename: 'cheerio-jsbox.js', // 输出文件名
@@ -41,6 +42,9 @@ jobs:
             libraryTarget: 'umd', // 使其兼容多种环境
           },
           target: 'web', // 目标平台设置为 web
+          resolve: {
+            extensions: ['.js', '.json'], // 自动解析的文件扩展名
+          },
         };
         " > webpack.config.js
 
@@ -49,7 +53,7 @@ jobs:
       run: |
         npx webpack --config webpack.config.js
 
-    # 6. 上传打包后的文件到 GitHub Release
+    # 6. 创建 GitHub Release 并上传文件
     - name: Create Release
       id: release
       uses: actions/create-release@v1
