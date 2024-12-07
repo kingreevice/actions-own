@@ -1,31 +1,59 @@
-name: Build Cheerio
+name: Build and Save Cheerio for JSBox
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: "0 0 * * *" # 每天运行一次（可根据需要调整）
+  workflow_dispatch: # 手动触发
 
 jobs:
-  build:
+  build-cheerio:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    # 1. 检出代码仓库（必要）
+    - name: Checkout the repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    # 2. 下载 Cheerio 最新源码
+    - name: Download Cheerio source
+      run: |
+        git clone --depth=1 https://github.com/cheeriojs/cheerio.git cheerio-latest
+
+    # 3. 设置 Node.js 环境
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18
 
-    - name: Install dependencies
-      run: npm install
+    # 4. 安装依赖并构建
+    - name: Install and Build Cheerio
+      working-directory: cheerio-latest
+      run: |
+        npm install
+        npm run build # 生成 dist 文件
 
-    - name: Build Cheerio
-      run: npm run build
-
-    - name: Upload build artifacts
+    # 5. 保存构建文件为 Artifact
+    - name: Upload Cheerio for JSBox
       uses: actions/upload-artifact@v3
       with:
-        name: cheerio-dist
-        path: dist/
+        name: cheerio-jsbox
+        path: cheerio-latest/dist/
+    # 6. 创建 GitHub Release
+    - name: Create Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: cheerio-latest
+        release_name: Cheerio Latest Build
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # 7. 上传编译结果到 Release
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: cheerio-latest/dist/
+        asset_name: cheerio-jsbox.zip
+        asset_content_type: application/zip
