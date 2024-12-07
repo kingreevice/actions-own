@@ -20,18 +20,13 @@ jobs:
       with:
         node-version: 18
 
-    # 3. 安装依赖
-    - name: Install dependencies
+    # 3. 安装最新版本的 Cheerio 和依赖
+    - name: Install Cheerio and dependencies
       run: |
-        npm install --legacy-peer-deps  # 使用 --legacy-peer-deps 来绕过依赖冲突
+        npm install cheerio@latest --save  # 自动安装最新的 Cheerio
+        npm install webpack webpack-cli --save-dev  # 安装 Webpack
 
-    # 4. 安装 Webpack 和其它构建工具
-    - name: Install Webpack and build tools
-      run: |
-        npm install webpack webpack-cli --save-dev
-        npm install cheerio --save
-
-    # 5. 创建 Webpack 配置文件
+    # 4. 创建 Webpack 配置文件
     - name: Create Webpack config file
       run: |
         echo "
@@ -49,20 +44,12 @@ jobs:
         };
         " > webpack.config.js
 
-    # 6. 检查 Webpack 安装
-    - name: Check webpack installation
-      run: npx webpack --version
-
-    # 7. 创建 dist 目录
-    - name: Create dist directory
-      run: mkdir -p dist
-
-    # 8. 使用 Webpack 打包 Cheerio
+    # 5. 使用 Webpack 打包 Cheerio
     - name: Build Cheerio using Webpack
       run: |
         npx webpack --config webpack.config.js
 
-    # 9. 上传打包好的文件到 GitHub Release
+    # 6. 上传打包后的文件到 GitHub Release
     - name: Create Release
       id: release
       uses: actions/create-release@v1
@@ -74,7 +61,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # 10. 上传打包后的文件
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
