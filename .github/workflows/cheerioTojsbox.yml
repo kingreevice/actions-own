@@ -2,8 +2,8 @@ name: Build and Save Cheerio for JSBox
 
 on:
   schedule:
-    - cron: "0 0 * * *" # 每天运行一次（可根据需要调整）
-  workflow_dispatch: # 手动触发
+    - cron: "0 0 * * *"  # 每天运行一次（可根据需要调整）
+  workflow_dispatch:  # 手动触发
 
 jobs:
   build-cheerio:
@@ -30,26 +30,26 @@ jobs:
       working-directory: cheerio-latest
       run: |
         npm install
-        npm run build # 生成 dist 文件
-        ls -alh dist/ # 查看 dist 文件夹的内容
+        npm run build  # 生成 dist 文件
+        ls -alh dist/  # 查看 dist 文件夹的内容
 
     # 5. 创建 GitHub Release
     - name: Create Release
+      id: release
       uses: actions/create-release@v1
       with:
-        tag_name: v1.0.0
-        release_name: Cheerio Latest Build
+        tag_name: v1.0.0  # 设置发布的 tag 名称
+        release_name: "Cheerio Latest Build"  # 设置发布名称
         draft: false
         prerelease: false
       env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # 6. 上传构建结果到 GitHub Release
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: cheerio-latest/dist/
-        asset_name: cheerio-jsbox.zip
-        asset_content_type: application/zip
+        upload_url: ${{ steps.release.outputs.upload_url }}  # 从创建 Release 步骤中获取 upload_url
+        asset_path: cheerio-latest/dist/  # 构建后的文件路径
+        asset_name: cheerio-jsbox.zip  # 上传的文件名称
+        asset_content_type: application/zip  # 文件类型，适用于 zip 文件
