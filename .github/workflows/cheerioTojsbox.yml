@@ -2,7 +2,7 @@ name: Build and Save Cheerio for JSBox
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 每天运行一次（可根据需要调整）
+    - cron: "0 0 * * *"  # 每天运行一次（可以根据需要调整）
   workflow_dispatch:  # 手动触发
 
 jobs:
@@ -33,19 +33,37 @@ jobs:
         npm run build  # 生成 dist 文件
         ls -alh dist/  # 查看 dist 文件夹的内容
 
-    # 5. 创建 GitHub Release
+    # 5. 获取最新的标签并生成新的标签
+    - name: Get latest tag
+      run: |
+        latest_tag=$(git tag --sort=-v:refname | head -n 1)
+        echo "Latest tag is: $latest_tag"
+        
+        # 获取版本号并递增
+        if [[ $latest_tag =~ v([0-9]+) ]]; then
+          version_number=${BASH_REMATCH[1]}
+          new_version_number=$((version_number + 1))
+          new_tag="v$new_version_number"
+        else
+          new_tag="v1"  # 如果没有找到标签，则从 v1 开始
+        fi
+
+        echo "New tag will be: $new_tag"
+        echo "new_tag=$new_tag" >> $GITHUB_ENV  # 将新标签保存到环境变量
+
+    # 6. 创建 GitHub Release
     - name: Create Release
       id: release
       uses: actions/create-release@v1
       with:
-        tag_name: v1.0.0  # 设置发布的 tag 名称
-        release_name: "Cheerio Latest Build"  # 设置发布名称
+        tag_name: ${{ env.new_tag }}  # 使用新生成的标签
+        release_name: "Cheerio Build ${{ env.new_tag }}"
         draft: false
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # 6. 上传构建结果到 GitHub Release
+    # 7. 上传构建结果到 GitHub Release
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
