@@ -7,4 +7,3 @@ wheel==0.37.1
 ddddocr>=1.4.7
 opencv-python==4.7.0.72
 pyaes
-base64
