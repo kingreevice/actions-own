@@ -4,7 +4,7 @@ import pyaes
 import re
 
 def decrypt_aes_cbc(encrypted_text, key, iv):
-    encrypted_bytes = base64.b64decode(encrypted_text)!
+    encrypted_bytes = base64.b64decode(encrypted_text)
     
     if len(encrypted_bytes) % 16 != 0:
         return None
