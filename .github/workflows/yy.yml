@@ -25,8 +25,8 @@ jobs:
           pip install -r ./request.txt
         
       # 运行外部的 Python 脚本生成 JSON 文件
-      - name: 'Run ss.py to generate JSON'
-        run: python ./ss.py
+      #- name: 'Run ss.py to generate JSON'
+       # run: python ./ss.py
       - name: 'Run getss.py to generate txt '
         run: python ./getss.py
 
