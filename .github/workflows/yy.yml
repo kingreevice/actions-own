@@ -31,15 +31,15 @@ jobs:
         run: python ./getss.py
 
       # 如果需要，将生成的 JSON 文件提交并推送到仓库
-      - name: Commit and push JSON file
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
-          git add output.json
-          git commit -m "Add generated JSON file"
-          git push origin main
+      #- name: Commit and push JSON file
+       # env:
+       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  run: |
+       #   git config --local user.name "GitHub Actions"
+      #    git config --local user.email "actions@github.com"
+      #    git add output.json
+      #    git commit -m "Add generated JSON file"
+       #   git push origin main
           
        # 如果需要，将生成的 txt 文件提交并推送到仓库 
       - name: Commit and push txt
