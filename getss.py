@@ -1,68 +1,57 @@
 import requests
 import base64
-import json
 import pyaes
-import binascii
-from datetime import datetime
+import re
 
-print("      H͜͡E͜͡L͜͡L͜͡O͜͡ ͜͡W͜͡O͜͡R͜͡L͜͡D͜͡ ͜͡E͜͡X͜͡T͜͡R͜͡A͜͡C͜͡T͜͡ ͜͡S͜͡S͜͡ ͜͡N͜͡O͜͡D͜͡E͜͡")
-print("𓆝 𓆟 𓆞 𓆟 𓆝 𓆟 𓆞 𓆟 𓆝 𓆟 𓆞 𓆟")
-print("Author : 𝐼𝑢")
-print(f"Date   : {datetime.today().strftime('%Y-%m-%d')}")
-print("Version: 1.0")
-print("𓆝 𓆟 𓆞 𓆟 𓆝 𓆟 𓆞 𓆟 𓆝 𓆟 𓆞 𓆟")
-print("𝐼𝑢:")
-print(r"""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠤⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡴⠁⠀⡰⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⢀⡎⢀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀
-⣀⠀⠀⠀⠀⠀⠀⡠⠬⡡⠬⡋⠀⡄⠀⠀⠀⠀⠀⠀⠀
-⡀⠁⠢⡀⠀⠀⢰⠠⢷⠰⠆⡅⠀⡇⠀⠀⠀⣀⠔⠂⡂
-⠱⡀⠀⠈⠒⢄⡸⡑⠊⢒⣂⣦⠄⢃⢀⠔⠈⠀⠀⡰⠁
-⠀⠱⡀⠀⠀⡰⣁⣼⡿⡿⢿⠃⠠⠚⠁⠀⠀⢀⠜⠀⠀
-⠀⠀⠐⢄⠜⠀⠈⠓⠒⠈⠁⠀⠀⠀⠀⠀⡰⠃⠀⠀⠀
-⠀⠀⢀⠊⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠾⡀⠀⠀⠀⠀
-⠀⠀⢸⣄⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡇⠀⠀⠀⠀
-⠀⠀⠸⢸⣳⠦⣍⣁⣀⣀⣀⣀⣠⠴⠚⠁⠇⠀⠀⠀⠀
-⠀⠀⠀⢳⣿⠄⠸⠢⠍⠉⠉⠀⠀⡠⢒⠎⠀⠀⠀⠀⠀
-⠀⠀⠀⠣⣀⠁⠒⡤⠤⢤⠀⠀⠐⠙⡇⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠣⡀⡼⠀⠀⠈⠱⡒⠂⡸⠁⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢒⠁⠀⠀⠀⠀⠀⠀⠀
-""")
+def decrypt_aes_cbc(encrypted_text, key, iv):
+    encrypted_bytes = base64.b64decode(encrypted_text)!
+    
+    if len(encrypted_bytes) % 16 != 0:
+        return None
+    
+    aes = pyaes.AESModeOfOperationCBC(key.encode('utf-8'), iv.encode('utf-8'))
+    decrypted_data = b''.join(aes.decrypt(encrypted_bytes[i:i+16]) for i in range(0, len(encrypted_bytes), 16))
+    
+    return decrypted_data[:-decrypted_data[-1]].decode('utf-8')
 
-
-a = 'http://api.skrapp.net/api/serverlist'
-b = {
-    'accept': '/',
-    'accept-language': 'zh-Hans-CN;q=1, en-CN;q=0.9',
-    'appversion': '1.3.1',
-    'user-agent': 'SkrKK/1.3.1 (iPhone; iOS 13.5; Scale/2.00)',
-    'content-type': 'application/x-www-form-urlencoded',
-    'Cookie': 'PHPSESSID=fnffo1ivhvt0ouo6ebqn86a0d4'
-}
-c = {'data': '4265a9c353cd8624fd2bc7b5d75d2f18b1b5e66ccd37e2dfa628bcb8f73db2f14ba98bc6a1d8d0d1c7ff1ef0823b11264d0addaba2bd6a30bdefe06f4ba994ed'}
-d = b'65151f8d966bf596'
-e = b'88ca0f0ea1ecf975'
-
-def f(g, d, e):
-    h = pyaes.AESModeOfOperationCBC(d, iv=e)
-    i = b''.join(h.decrypt(g[j:j+16]) for j in range(0, len(g), 16))
-    return i[:-i[-1]]
-
-j = requests.post(a, headers=b, data=c)
-
-if j.status_code == 200:
-    ff = open('ss.txt','w')
-    k = j.text.strip()
-    l = binascii.unhexlify(k)
-    m = f(l, d, e)
-    n = json.loads(m)
-    for o in n['data']:
-        p = f"aes-256-cfb:{o['password']}@{o['ip']}:{o['port']}"
-        q = base64.b64encode(p.encode('utf-8')).decode('utf-8')
-        r = f"ss://{q}#{o['title']}"
+def extract_and_format_data(decrypted_data):
+    ss_pattern = re.compile(r'SS = ss, ([\d.]+), (\d+),encrypt-method=([\w-]+),password=([\w\d]+)')
+    matches = ss_pattern.findall(decrypted_data)
+    
+    results = []
+    for ip, port, method, password in matches:
+        formatted_data = f"{method}:{password}@{ip}:{port}"
+        base64_encoded_data = base64.urlsafe_b64encode(formatted_data.encode('utf-8')).decode('utf-8')
         
-        print(r)
-        ff.write(r)
+        city = re.search(rf'{ip}.*?"city":"([^"]+)"', decrypted_data)
+        city_name = city.group(1) if city else "Unknown"
+        
+        results.append(f"ss://{base64_encoded_data}#{city_name}")
+    
+    return results
+
+def fetch_and_decrypt():
+    url = "http://cnc07api.cnc07.com/api/cnc07iuapis"
+    key = "1kv10h7t*C3f8c@$"
+    iv = "@$6l&bxb5n35c2w9"
+
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    
+    encrypted_servers = response.json().get('servers')
+    decrypted_data = decrypt_aes_cbc(encrypted_servers, key, iv)
+    
+    return extract_and_format_data(decrypted_data) if decrypted_data else []
+
+def main():
+    results = fetch_and_decrypt()
+    ff = open('ss.txt','w')
+    for result in results:
+        ff.write(result)
         ff.write('\n')
+        print(result)
     ff.close()
+if __name__ == "__main__":
+    main()
+
+    
