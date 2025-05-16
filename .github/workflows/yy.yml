@@ -49,22 +49,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-         # git config --local user.name "GitHub Actions"
-         # git config --local user.email "actions@github.com"
-         # git add ss.txt
-         # git commit -m "Add generated JSON file"
-         # git push origin main
-         #修改2025-5-16
-         git config --local user.name "GitHub Actions"
-         git config --local user.email "actions@github.com"
-         git pull origin main --rebase
-         git add ss.txt
-         if git diff --cached --quiet; then
-            echo "No changes to commit."
-         else
-            git commit -m "Update ss.txt"
-            git push origin main
-         fi
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add ss.txt
+          git commit -m "Add generated JSON file"
+          git push origin main
+    
 
           
           
