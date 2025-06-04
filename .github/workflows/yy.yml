@@ -28,7 +28,9 @@ jobs:
       #- name: 'Run ss.py to generate JSON'
        # run: python ./ss.py
       - name: 'Run getss.py to generate txt '
-        run: python ./getss.py
+        run: |
+         rm -f ss.txt
+         python ./getss.py
 
       # 如果需要，将生成的 JSON 文件提交并推送到仓库
       #- name: Commit and push JSON file
