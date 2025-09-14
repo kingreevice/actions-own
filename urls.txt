@@ -606,3 +606,5 @@ https://zhs.futbol/link/a7htuh41Qpaw9uNC?mu=4
 https://zhs.futbol/link/lplSMjwOzkmHEciB?mu=4
 https://proxy-manager-ggeu.onrender.com/api/v1/subscribe?token=x1l35glkozrb5qz5
 https://zhs.futbol/link/Zxpn78PYmd65FUW6?mu=6
+https://alice.dns-dynamic.net/linuxdo-06bba403-4ea4-4849-82f5-1cd7595bc10a/config.txt
+
