@@ -25,4 +25,4 @@ jobs:
       - name: Run fetch script
         run: python fetch_subscriptions.py
 
-      
+
