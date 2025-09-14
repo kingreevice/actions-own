@@ -27,4 +27,5 @@ jobs:
       - name: 'Run py to txt '
         run: |
          python ./fetch_subscriptions.py
+         
 
