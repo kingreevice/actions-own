@@ -1,48 +1,91 @@
 import asyncio
 import aiohttp
+import base64
 import os
+import re
 from typing import Set, List
 
 async def fetch_url(session: aiohttp.ClientSession, url: str, semaphore: asyncio.Semaphore, results: Set[str]):
     """异步获取单个URL的内容"""
     async with semaphore:
         try:
+            print(f"开始获取: {url}")
             timeout = aiohttp.ClientTimeout(total=15)
             async with session.get(url, timeout=timeout) as response:
                 if response.status == 200:
                     content = await response.text()
-                    process_content(content, results)
-                    print(f"成功处理: {url}")
+                    print(f"成功获取 {url}, 内容长度: {len(content)}")
+                    process_content(content, results, url)
                 else:
                     print(f"获取失败 {url}: 状态 {response.status}")
         except Exception as e:
             print(f"获取错误 {url}: {str(e)}")
 
-def process_content(content: str, results: Set[str]):
-    """处理获取的内容 - 跳过Base64解码，直接处理纯文本"""
+def decode_base64_content(content: str) -> str:
+    """尝试解码Base64内容"""
     content = content.strip()
     
-    # 直接处理文本内容，不尝试Base64解码
-    lines = content.split('\n')
-    for line in lines:
-        line = line.strip()
-        if line and line not in results:
-            # 检查是否是有效的订阅链接格式
-            if is_valid_subscription_link(line):
-                results.add(line)
-            else:
-                print(f"跳过无效链接: {line[:50]}...")  # 只显示前50个字符
+    # 检查是否是Base64编码
+    if re.match(r'^[A-Za-z0-9+/=]+$', content):
+        try:
+            # 尝试解码Base64
+            decoded = base64.b64decode(content).decode('utf-8')
+            print("成功解码Base64内容")
+            return decoded
+        except Exception as e:
+            print(f"Base64解码失败: {e}")
+            return content  # 返回原始内容
+    
+    return content  # 不是Base64，返回原始内容
 
-def is_valid_subscription_link(line: str) -> bool:
-    """检查是否是有效的订阅链接格式"""
+def extract_subscription_links(content: str) -> List[str]:
+    """从内容中提取订阅链接"""
+    links = []
+    
     # 常见的订阅协议前缀
-    subscription_prefixes = [
-        "vmess://", "vless://", "trojan://", "ss://", 
-        "ssr://", "http://", "https://", "socks://",
-        "hysteria://", "hy2://", "tuic://"
+    subscription_patterns = [
+        r'vmess://[^\s]+',
+        r'vless://[^\s]+',
+        r'trojan://[^\s]+',
+        r'ss://[^\s]+',
+        r'ssr://[^\s]+',
+        r'https?://[^\s]+',
+        r'socks://[^\s]+',
+        r'hysteria://[^\s]+',
+        r'hy2://[^\s]+',
+        r'tuic://[^\s]+'
     ]
     
-    return any(line.startswith(prefix) for prefix in subscription_prefixes)
+    # 使用正则表达式匹配所有可能的订阅链接
+    for pattern in subscription_patterns:
+        matches = re.findall(pattern, content, re.IGNORECASE)
+        links.extend(matches)
+    
+    return links
+
+def process_content(content: str, results: Set[str], url: str):
+    """处理获取的内容 - 先尝试Base64解码，然后提取订阅链接"""
+    print(f"处理 {url} 的内容, 长度: {len(content)} 字符")
+    
+    # 尝试解码Base64内容
+    decoded_content = decode_base64_content(content)
+    
+    # 从解码后的内容中提取订阅链接
+    links = extract_subscription_links(decoded_content)
+    print(f"从 {url} 提取到 {len(links)} 个链接")
+    
+    # 添加唯一链接到结果集
+    added_count = 0
+    duplicate_count = 0
+    
+    for link in links:
+        if link not in results:
+            results.add(link)
+            added_count += 1
+        else:
+            duplicate_count += 1
+    
+    print(f"从 {url} 添加: {added_count} 个新链接, 跳过: {duplicate_count} 个重复链接")
 
 def split_by_size(results: Set[str], max_size_mb=90):
     """按文件大小分割结果集"""
@@ -50,6 +93,10 @@ def split_by_size(results: Set[str], max_size_mb=90):
     total_lines = len(results_list)
     
     print(f"总订阅数: {total_lines}, 开始按大小分割...")
+    
+    if total_lines == 0:
+        print("没有订阅链接可保存")
+        return []
     
     output_files = []
     current_file_index = 1
@@ -89,24 +136,37 @@ def split_by_size(results: Set[str], max_size_mb=90):
 
 def create_info_file(output_files: List[str]):
     """创建信息文件，说明文件内容"""
-    info_content = f"""# 订阅文件信息
+    if not output_files:
+        info_content = """# 订阅文件信息
+
+本次运行未收集到任何订阅链接。
+
+## 可能的原因
+1. 所有URL都无法访问
+2. 未能从内容中提取到订阅链接
+3. 网络连接问题
+
+请检查日志输出以获取更多信息。
+"""
+    else:
+        info_content = f"""# 订阅文件信息
 
 此目录包含 {len(output_files)} 个独立的订阅文件。
 
 ## 文件列表
 
 """
-    
-    total_lines = 0
-    total_size = 0
-    for filename in sorted(output_files):
-        line_count = sum(1 for _ in open(filename, 'r', encoding='utf-8'))
-        file_size = os.path.getsize(filename) / (1024 * 1024)  # MB
-        info_content += f"- `{filename}`: {line_count:,} 个订阅, {file_size:.2f} MB\n"
-        total_lines += line_count
-        total_size += file_size
-    
-    info_content += f"""
+        
+        total_lines = 0
+        total_size = 0
+        for filename in sorted(output_files):
+            line_count = sum(1 for _ in open(filename, 'r', encoding='utf-8'))
+            file_size = os.path.getsize(filename) / (1024 * 1024)  # MB
+            info_content += f"- `{filename}`: {line_count:,} 个订阅, {file_size:.2f} MB\n"
+            total_lines += line_count
+            total_size += file_size
+        
+        info_content += f"""
 ## 总计
 - 总文件数: {len(output_files)}
 - 总订阅数: {total_lines:,}
@@ -117,9 +177,11 @@ def create_info_file(output_files: List[str]):
 每个文件都是独立的，包含有效的订阅链接，可以直接使用。
 无需合并，每个文件都可以单独导入到支持的客户端中。
 
-## 注意事项
-所有订阅链接都以原始格式保存，未进行Base64解码。
-只包含有效的订阅协议链接（vmess://, vless://, trojan://, ss://, ssr://, http://, https://, socks://, hysteria://, hy2://, tuic://）。
+## 处理流程
+1. 获取URL内容
+2. 尝试Base64解码（如果内容是Base64编码）
+3. 从解码后的内容中提取订阅链接
+4. 保存唯一链接到文件
 """
     
     with open("SUBSCRIPTIONS_INFO.md", "w", encoding='utf-8') as f:
