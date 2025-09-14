@@ -23,6 +23,5 @@ jobs:
         run: pip install aiohttp requests
 
       - name: Run fetch script
-        run: python fetch_subscriptions.py
-
-
+         run:|
+             python ./fetch_subscriptions.py
