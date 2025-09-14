@@ -619,5 +619,6 @@ https://sub.soyorin.shop/api/v1/client/subscribe?token=f62d458ba609530a3e208eef5
 https://wow.dogss-host.store/api/v1/client/subscribe?token=e0d90ed8f90e23e2641893904dc37b1e
 https://www.s.aifjj.asia/api/v1/client/subscribe?token=3eddd42e9dc1e77d881326ad87da9246
 https://showdb.389123.xyz/s/7550a6896f04d30e7f195ea1a0569aec
+https://zh.jikun.fun/share/col/%E6%B1%9F%E6%B1%9F%E5%85%AC%E7%9B%8A?token=1yGRuU-x6r_zEz28cE_pE
 
 
