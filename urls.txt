@@ -604,4 +604,5 @@ https://xl.xilucloud.top/api/v1/client/subscribe?token=f2e47cdc61ef57920e2d760e5
 https://yun.dashiba.com/api/v1/client/subscribe?token=c5053a3a08a325c302b499ccf00967b3
 https://zhs.futbol/link/a7htuh41Qpaw9uNC?mu=4
 https://zhs.futbol/link/lplSMjwOzkmHEciB?mu=4
+https://proxy-manager-ggeu.onrender.com/api/v1/subscribe?token=x1l35glkozrb5qz5
 https://zhs.futbol/link/Zxpn78PYmd65FUW6?mu=6
