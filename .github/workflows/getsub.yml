@@ -27,5 +27,13 @@ jobs:
       - name: 'Run py to txt '
         run: |
          python ./fetch_subscriptions.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add merged_subscriptions.txt
+          git diff --cached --quiet || git commit -m "Update subscriptions"
+          git push
          
 
