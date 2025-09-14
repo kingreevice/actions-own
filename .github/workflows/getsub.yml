@@ -1,4 +1,3 @@
-
 name: Fetch and Merge Subscriptions
 
 on:
@@ -12,23 +11,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: pip install aiohttp requests
 
       - name: Create URL list file
         run: |
-          cat > urls.txt << EOF
+          cat > urls.txt << 'EOF'
           https://mareep.netlify.app/sub/shadowrocket_base64.txt
           http://aa.dabai.in/link/MvZeK8c72U5QBiDe?sub=3
           https://mojie.app/api/v1/client/subscribe?token=122593ee2d5610c6aae0c588a046cf0b
           # 这里添加所有其他URL，每行一个
-          # 注意：由于URL数量很多，您可能需要分批处理或使用其他方法
           EOF
 
       - name: Run fetch script
@@ -36,8 +36,8 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add merged_subscriptions.txt
-          git diff --staged --quiet || git commit -m "Update subscriptions"
+          git diff --cached --quiet || git commit -m "Update subscriptions"
           git push
