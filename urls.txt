@@ -607,4 +607,15 @@ https://zhs.futbol/link/lplSMjwOzkmHEciB?mu=4
 https://proxy-manager-ggeu.onrender.com/api/v1/subscribe?token=x1l35glkozrb5qz5
 https://zhs.futbol/link/Zxpn78PYmd65FUW6?mu=6
 https://alice.dns-dynamic.net/linuxdo-06bba403-4ea4-4849-82f5-1cd7595bc10a/config.txt
+http://148.135.67.219/api/v1/client/subscribe?token=5fdc037af8a1d09c77be175d76ee5a17
+http://shiyuanyinian.xyz/api/v1/client/subscribe?token=f64ab6f1d58f1120064b61da41e84f47
+https://odysseycdn.cyou/api/v1/client/subscribe?token=6acb961f4a5d0c12a15b604a9605ce94
+https://s1.byte33.com/api/v1/client/subscribe?token=636373d0c6849c774c51d9ee1446f6b7
+https://s1.byte33.com/api/v1/client/subscribe?token=7aa935a0f7cae2b5c8519f9456c69315
+https://ss2.sswiwi.com/api/v1/client/subscribe?token=e0d6d09fa4dbb8a75949b04e3e733322
+https://xboard.sswiwi.com/api/v1/client/subscribe?token=68337ef392c9feb5a8eca1e4d3398a0c
+https://www.paofusub2.com/link/UhYmljLve9J9DR9K?clash=1
+https://sub.soyorin.shop/api/v1/client/subscribe?token=f62d458ba609530a3e208eef5b8e871d
+https://wow.dogss-host.store/api/v1/client/subscribe?token=e0d90ed8f90e23e2641893904dc37b1e
+
 
