@@ -22,22 +22,7 @@ jobs:
       - name: Install dependencies
         run: pip install aiohttp requests
 
-      - name: Create URL list file
-        run: |
-          cat > urls.txt << 'EOF'
-          https://mareep.netlify.app/sub/shadowrocket_base64.txt
-          http://aa.dabai.in/link/MvZeK8c72U5QBiDe?sub=3
-          https://mojie.app/api/v1/client/subscribe?token=122593ee2d5610c6aae0c588a046cf0b
-          # 这里添加所有其他URL，每行一个
-          EOF
-
       - name: Run fetch script
         run: python fetch_subscriptions.py
 
-      - name: Commit and push if changed
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add merged_subscriptions.txt
-          git diff --cached --quiet || git commit -m "Update subscriptions"
-          git push
+      
