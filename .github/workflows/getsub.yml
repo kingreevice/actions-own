@@ -3,8 +3,9 @@ name: Fetch and Split Subscriptions
 on:
   push:
     branches: [ main ]
-  schedule:
-#    - cron: '0 3 * * *'
+  # schedule:          # 先注释掉或删掉
+  #   - cron: '0 3 * * *'
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -30,11 +31,9 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # 添加所有订阅文件和信息文件
           git add subscriptions_*.txt
           git add SUBSCRIPTIONS_INFO.md
           
-          # 清理旧文件
           if [ -f "merged_subscriptions.txt" ]; then
             git rm merged_subscriptions.txt
           fi
