@@ -2,21 +2,23 @@ name: Update Free Subs
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # 每 6 小时执行一次
+    - cron: "0 */12 * * *"   # 每 6 小时执行一次
   workflow_dispatch:         # 允许手动触发
 
 jobs:
   merge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # 先固定用 24.04，避免直接跳到 26 出问题
+    # 或者继续用 ubuntu-latest（到时候会自动变成 26）
+
     permissions:
       contents: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5   # 升级到 v5（已支持 Node 24）
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6  # 升级到 v6（已支持 Node 24）
         with:
           python-version: "3.12"
 
