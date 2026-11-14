@@ -4,19 +4,22 @@ on:
   push:
     branches: [ main ]
   # schedule:
-  #   - cron: '0 3 * * *'
+  #   - cron: '0 3 * * *'   # 需要定时的话取消注释
 
 jobs:
   fetch:
-    runs-on: ubuntu-24.04          # 固定版本，避免自动切到 Ubuntu 26
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5   # 升级到 v5，支持 Node 24
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v6  # 升级到 v6，支持 Node 24
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.12'      # 建议顺便升到 3.12
+          python-version: '3.12'
 
       - name: Install dependencies
         run: pip install aiohttp requests
@@ -31,12 +34,24 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          git add subscriptions_*.txt
-          git add SUBSCRIPTIONS_INFO.md
+          # 先拉取远程最新代码，避免推送冲突
+          git pull --rebase origin main || git pull origin main --no-rebase
           
+          # 添加需要提交的文件（根据你实际生成的文件调整）
+          git add subscriptions_*.txt || true
+          git add SUBSCRIPTIONS_INFO.md || true
+          git add ss.txt || true
+          git add output/ || true
+          
+          # 清理旧文件（如果有）
           if [ -f "merged_subscriptions.txt" ]; then
-            git rm merged_subscriptions.txt
+            git rm merged_subscriptions.txt || true
           fi
           
-          git diff --cached --quiet || git commit -m "更新订阅文件"
-          git push origin main
+          # 有变化才提交并推送
+          if ! git diff --cached --quiet; then
+            git commit -m "更新订阅文件 $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push origin main
+          else
+            echo "没有文件变化，跳过提交"
+          fi
